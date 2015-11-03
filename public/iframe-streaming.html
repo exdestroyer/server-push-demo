@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iframe streaming demo</title>
+</head>
+<body>
+    <pre></pre>
+    <script src="/lib/jquery.js"></script>
+    <script>
+        if (!+[1,]) {
+            var htmlfile = new ActiveXObject('htmlfile');
+            htmlfile.open();
+            htmlfile.write('<html></html>');
+            htmlfile.write('<script>document.domain = "' + document.domain + '"');
+            htmlfile.close();
+            htmlfile.parentWindow.clientcallback = clientcallback;
+
+            var parentDiv = htmlfile.createElement('div');
+            parentDiv.innerHTML = '<iframe id="connectionFrame" style="display:none;" src="/iframeStreaming"></iframe>';
+            htmlfile.appendChild(parentDiv);
+            var iframe = htmlfile.getElementById('connectionFrame');
+            setInterval(function() {
+                if (iframe.readyState === 'complete') {
+                    iframe.src = iframe.src;
+                }
+            }, 10);
+        } else {
+            $('<iframe style="display:none;" src="/iframeStreaming"></iframe>')
+                .appendTo('body')
+                .on('load', function() {
+                    this.src = this.src;
+                });
+        }
+
+        var $pre = $('pre');
+        function clientcallback(result) {
+            $pre.html(result);
+        }
+    </script>
+</body>
+</html>

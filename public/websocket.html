@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket demo</title>
+</head>
+<body>
+    <pre></pre>
+    <script src="/lib/jquery.js"></script>
+    <script>
+        var $pre = $('pre');
+        var ws = new WebSocket('ws://localhost:3000');
+        ws.onopen = function() {
+            ws.send('data');
+            console.log('channel is avaliable');
+        }
+        ws.onmessage = function(e) {
+            $pre.html(e.data);
+        }
+    </script>
+</body>
+</html>

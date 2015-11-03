@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>long polling demo</title>
+</head>
+<body>
+    <pre></pre>
+    <script src="/lib/jquery.js"></script>
+    <script>
+        var $pre = $('pre');
+        function request() {
+            $.ajax({
+                url: '/longPolling',
+                type: 'post'
+            }).done(function(result) {
+                $pre.html(result);
+                request();
+            }).fail(function(xhr) {
+                console.log(xhr);
+            });
+        }
+        request();
+    </script>
+</body>
+</html>
